@@ -1,0 +1,33 @@
+﻿package tareas;
+
+import dao.CalificacionDAO;
+import java.util.Scanner;
+
+public class Tarea10_EliminarCalificacion implements TareaBase {
+
+    @Override
+    public void ejecutar() {
+        Scanner sc = new Scanner(System.in);
+        CalificacionDAO dao = new CalificacionDAO();
+
+        System.out.println("=================================");
+        System.out.println("   ELIMINAR CALIFICACIÓN");
+        System.out.println("=================================");
+
+        try {
+            System.out.print("Ingrese el ID de la calificación a eliminar: ");
+            int id = sc.nextInt();
+
+            boolean eliminado = dao.eliminar(id);
+
+            if (eliminado) {
+                System.out.println("✅ Calificación eliminada correctamente.");
+            } else {
+                System.out.println("❌ No se encontró una calificación con ese ID.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("❌ Error: " + e.getMessage());
+        }
+    }
+}
