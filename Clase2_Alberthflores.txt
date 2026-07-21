@@ -1,0 +1,29 @@
+package tareas;
+
+import dao.EstudianteDAO;
+import modelos.Estudiante;
+import java.util.List;
+
+public class Tarea2_ListarEstudiante extends TareaBase {
+
+    public Tarea2_ListarEstudiante() {
+        super("Listar Estudiante", "Muestra todos los estudiantes registrados");
+    }
+
+    @Override
+    public void ejecutar() {
+        mostrarInfo();
+
+        EstudianteDAO dao = new EstudianteDAO();
+        List<Estudiante> estudiantes = dao.listarTodos();
+
+        if (estudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+        } else {
+            System.out.println("\n===== LISTA DE ESTUDIANTES =====");
+            for (Estudiante estudiante : estudiantes) {
+                System.out.println(estudiante);
+            }
+        }
+    }
+}
