@@ -1,0 +1,95 @@
+package dao;
+
+import config.DatabaseConnection;
+import modelos.Estudiante;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class EstudianteDAO {
+    
+    // INSERTAR estudiante
+    public boolean insertar(Estudiante estudiante) {
+        String sql = "INSERT INTO estudiantes (nombre, apellido, edad, carrera) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, estudiante.getNombre());
+            pstmt.setString(2, estudiante.getApellido());
+            pstmt.setInt(3, estudiante.getEdad());
+            pstmt.setString(4, estudiante.getCarrera());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al insertar estudiante: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    // LISTAR todos los estudiantes
+    public List<Estudiante> listarTodos() {
+        List<Estudiante> lista = new ArrayList<>();
+        String sql = "SELECT * FROM estudiantes";
+        try (Statement stmt = DatabaseConnection.getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Estudiante e = new Estudiante();
+                e.setId(rs.getInt("id"));
+                e.setNombre(rs.getString("nombre"));
+                e.setApellido(rs.getString("apellido"));
+                e.setEdad(rs.getInt("edad"));
+                e.setCarrera(rs.getString("carrera"));
+                lista.add(e);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al listar estudiantes: " + e.getMessage());
+        }
+        return lista;
+    }
+    
+    // BUSCAR por ID
+    public Estudiante buscarPorId(int id) {
+        String sql = "SELECT * FROM estudiantes WHERE id = ?";
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Estudiante e = new Estudiante();
+                e.setId(rs.getInt("id"));
+                e.setNombre(rs.getString("nombre"));
+                e.setApellido(rs.getString("apellido"));
+                e.setEdad(rs.getInt("edad"));
+                e.setCarrera(rs.getString("carrera"));
+                return e;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al buscar estudiante: " + e.getMessage());
+        }
+        return null;
+    }
+    
+    // ACTUALIZAR estudiante
+    public boolean actualizar(Estudiante estudiante) {
+        String sql = "UPDATE estudiantes SET nombre=?, apellido=?, edad=?, carrera=? WHERE id=?";
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, estudiante.getNombre());
+            pstmt.setString(2, estudiante.getApellido());
+            pstmt.setInt(3, estudiante.getEdad());
+            pstmt.setString(4, estudiante.getCarrera());
+            pstmt.setInt(5, estudiante.getId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar estudiante: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    // ELIMINAR estudiante
+    public boolean eliminar(int id) {
+        String sql = "DELETE FROM estudiantes WHERE id = ?";
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar estudiante: " + e.getMessage());
+            return false;
+        }
+    }
+}
