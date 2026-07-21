@@ -1,0 +1,38 @@
+package tareas;
+
+import dao.CalificacionDAO;
+import modelos.Calificacion;
+import java.util.List;
+
+public class Tarea7_ListarCalificacion extends TareaBase {
+
+    public Tarea7_ListarCalificacion() {
+        super("Listar Calificaciones",
+              "Permite mostrar todas las calificaciones registradas en la base de datos");
+    }
+
+    @Override
+    public void ejecutar() {
+
+        mostrarInfo();
+
+        CalificacionDAO dao = new CalificacionDAO();
+        List<Calificacion> lista = dao.listarTodos();
+
+        if (lista.isEmpty()) {
+            System.out.println("? No existen calificaciones registradas.");
+            return;
+        }
+
+        System.out.println("\n==============================================");
+        System.out.println("          LISTA DE CALIFICACIONES");
+        System.out.println("==============================================");
+
+        for (Calificacion c : lista) {
+            System.out.println(c);
+        }
+
+        System.out.println("==============================================");
+        System.out.println("Total de calificaciones: " + lista.size());
+    }
+}
