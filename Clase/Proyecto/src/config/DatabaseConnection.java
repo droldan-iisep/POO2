@@ -1,0 +1,41 @@
+package config;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DatabaseConnection {
+    private static final String URL = "jdbc:mysql://localhost:3306/escuela_tareas";
+    private static final String USER = "root";
+    private static final String PASSWORD = "iisep"; // Cambia por tu contraseña
+    
+    private static Connection connection = null;
+    
+    public static Connection getConnection() {
+        if (connection == null) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                System.out.println("✅ Conexión a MySQL establecida");
+            } catch (ClassNotFoundException e) {
+                System.err.println("❌ Error: Driver MySQL no encontrado");
+                e.printStackTrace();
+            } catch (SQLException e) {
+                System.err.println("❌ Error de conexión a MySQL");
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+    
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("🔒 Conexión cerrada");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
