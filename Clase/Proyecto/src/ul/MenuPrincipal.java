@@ -68,10 +68,13 @@ public class MenuPrincipal {
     }
     
     private static void inicializarTareas() {
+
         tareas.put(1, new Tarea1_InsertarEstudiante());
+        tareas.put(2, new Tarea2_ListarEstudiante());
+
+    }
         // Aquí se añadirán las tareas 2-10 cuando los alumnos las completen
         // tareas.put(2, new Tarea2_ListarEstudiantes());
         // tareas.put(3, new Tarea3_BuscarEstudiante());
         // etc...
     }
-}
