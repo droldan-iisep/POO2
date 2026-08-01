@@ -1,0 +1,9 @@
+Nombre: Sebastian
+Aporte:
+- Tarea 4: Actualizar estudiante
+- Tarea 5: Eliminar estudiante
+- Tarea 6: Insertar calificación
+- Tarea 7: Listar calificaciones
+- Tarea 8: Buscar calificación
+- Tarea 9: Actualizar calificación
+- Tarea 10: Eliminar calificación
